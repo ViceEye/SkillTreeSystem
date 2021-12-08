@@ -33,6 +33,7 @@ void ATestActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	TestDelegate.Broadcast();
     FVector NewLocation = GetActorLocation();
     FRotator NewRotation = GetActorRotation();
     float RunningTime = GetGameTimeSinceCreation();

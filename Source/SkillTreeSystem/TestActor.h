@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "PlayerProperties.h"
 #include "TestActor.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTestDelegateSignature);
 
 UCLASS()
 class SKILLTREESYSTEM_API ATestActor : public AActor
@@ -15,12 +16,12 @@ class SKILLTREESYSTEM_API ATestActor : public AActor
 public: 
     // Sets default values for this actor's properties
     ATestActor();
-
+    
+    UPROPERTY(BlueprintAssignable)
+    FTestDelegateSignature TestDelegate;
+    
     UPROPERTY(VisibleAnywhere)
     UStaticMeshComponent* VisualMesh;
-    
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = EPlayerProperties)
-    TEnumAsByte<EPlayerProperties> properties;
 
 protected:
     // Called when the game starts or when spawned

@@ -48,57 +48,6 @@ ASkillTreeSystemCharacter::ASkillTreeSystemCharacter()
 }
 
 //////////////////////////////////////////////////////////////////////////
-// Skill Tree Implementations
-void ASkillTreeSystemCharacter::OnKeyPressed()
-{
-	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	if (PlayerController != nullptr)
-	{
-		SkillTreeUI->OpenOrCloseST(!IsSkillTreeVisible);
-		if (IsSkillTreeVisible)
-		{
-			UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
-			PlayerController->SetShowMouseCursor(false);
-		}
-		else
-		{
-			UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(PlayerController, SkillTreeUI, EMouseLockMode::LockOnCapture, false);
-			PlayerController->SetShowMouseCursor(true);
-		}
-		IsSkillTreeVisible = !IsSkillTreeVisible;
-	}
-}
-
-void ASkillTreeSystemCharacter::OnStart()
-{
-	SkillTreeInstance = Cast<USkillTreeGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	DebugMsg(TEXT("Loaded up!"));
-	BPOnStart();
-	
-	GetWorld()->GetTimerManager().SetTimer(TimerHandler, this, &ASkillTreeSystemCharacter::OnTick, 0.2, true);
-}
-
-void ASkillTreeSystemCharacter::OnTick()
-{
-	BPOnTick();
-}
-
-void ASkillTreeSystemCharacter::SyncLocalDataAndStoredData()
-{
-	const USaveGameObject* Data = SkillTreeInstance->SaveGameData;
-	this->AvailableSkillPoints = Data->AvailableSkillPoints;
-	this->CurrentPlayerExp = Data->CurrentPlayerExp;
-	this->PropertiesMap = Data->PropertiesMap;
-	this->SkillTreeNodesMap = Data->SkillTreeNodesMap;
-}
-
-void ASkillTreeSystemCharacter::DebugMsg(const FString& Msg)
-{
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, Msg); 
-}
-
-
-//////////////////////////////////////////////////////////////////////////
 // Input
 
 void ASkillTreeSystemCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -126,7 +75,6 @@ void ASkillTreeSystemCharacter::SetupPlayerInputComponent(class UInputComponent*
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ASkillTreeSystemCharacter::OnResetVR);
 }
-
 
 void ASkillTreeSystemCharacter::OnResetVR()
 {

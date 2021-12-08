@@ -2,9 +2,6 @@
 
 #pragma once
 
-#include "BaseSkillTreeWidget.h"
-#include "SkillTreeGameInstance.h"
-
 #include "Blueprint/WidgetBlueprintLibrary.h"
 
 #include "CoreMinimal.h"
@@ -27,66 +24,6 @@ class ASkillTreeSystemCharacter : public ACharacter
 public:
 	ASkillTreeSystemCharacter();
 
-	//////////////////////////////////////////////////////////////////////////
-	// Skill Tree Implementations
-
-	UPROPERTY(BlueprintReadOnly, Category = UIVariables)
-	FTimerHandle TimerHandler;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UIVariables)
-	bool IsSkillTreeVisible;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UIVariables)
-	UBaseSkillTreeWidget* SkillTreeUI;
-
-	UPROPERTY(BlueprintReadOnly, Category = UIVariables)
-	USkillTreeGameInstance* SkillTreeInstance;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UIVariables)
-	int AvailableSkillPoints;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UIVariables)
-	int CurrentPlayerExp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UIVariables)
-	TMap<FString, float> PropertiesMap;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UIVariables)
-	TMap<FString, bool> SkillTreeNodesMap;
-
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = UIFunctions)
-	int GetCurrentGrade();
-	
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = UIFunctions)
-	int GetNowExp();
-	
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = UIFunctions)
-	int GetMaxExp();
-
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = UIFunctions)
-	bool ReduceExp(int Exp);
-
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = UIFunctions)
-	bool SetExp(int Exp);
-
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = UIFunctions)
-	bool SetGrade(int Grade);
-	
-	void OnStart();
-	
-	UFUNCTION(BlueprintImplementableEvent, Category = UIFunctions, meta=(DisplayName="OnStart", ScriptName="OnStart"))
-	void BPOnStart();
-	
-	void OnTick();
-	
-	UFUNCTION(BlueprintImplementableEvent, Category = UIFunctions, meta=(DisplayName="OnTickPerSecond", ScriptName="OnTick"))
-	void BPOnTick();
-
-	UFUNCTION(BlueprintCallable, Category = UIFunctions)
-	void SyncLocalDataAndStoredData();
-	
-	//////////////////////////////////////////////////////////////////////////
-
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
@@ -96,9 +33,6 @@ public:
 	float BaseLookUpRate;
 
 protected:
-
-	UFUNCTION(BlueprintCallable, Category=UI)
-	void OnKeyPressed();
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
@@ -133,8 +67,6 @@ protected:
 	// End of APawn interface
 
 public:
-
-	static void DebugMsg(const FString& Msg);
 	
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

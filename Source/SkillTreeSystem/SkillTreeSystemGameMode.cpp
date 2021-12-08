@@ -13,22 +13,3 @@ ASkillTreeSystemGameMode::ASkillTreeSystemGameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 }
-
-void ASkillTreeSystemGameMode::BeginPlay()
-{
-	Super::BeginPlay();
-	ASkillTreeSystemCharacter* PlayerCharacter = Cast<ASkillTreeSystemCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	PlayerCharacters.Add(PlayerCharacter);
-	for (ASkillTreeSystemCharacter* Character : PlayerCharacters)
-	{
-		Character->OnStart();
-	}
-}
-
-void ASkillTreeSystemGameMode::Tick(float DeltaSeconds)
-{
-	for (ASkillTreeSystemCharacter* Character : PlayerCharacters)
-	{
-		Character->OnTick();
-	}
-}
