@@ -8,6 +8,38 @@ ASkillTreeActor::ASkillTreeActor()
 	SkillTreeComponent = CreateDefaultSubobject<USkillTreeComponent>(TEXT("SkillTreeComponent"));
 }
 
+
+// Debug Tool / Notice Tool //
+static void GlobalNoticing_Imp(const FString& Msg)
+{
+	USkillTreeComponent::GlobalNoticing(TEXT("ASkillTreeActor"), Msg, FColor::Green);	
+}
+// Debug Tool / Notice Tool //
+
+
+////////// Base //////////
+void ASkillTreeActor::DoLoad_Implementation()
+{
+	GlobalNoticing_Imp(TEXT("CPP Functioning"));
+	if (SkillTreeWidgetClass != nullptr)
+	{
+		UUserWidget* MyWidget = CreateWidget<UUserWidget>(
+		UGameplayStatics::GetPlayerController(GetWorld(), 0),
+		SkillTreeWidgetClass
+		);
+		MyWidget->AddToViewport();
+		
+		SkillTreeComponent->OnTick.AddDynamic(SkillTreeComponent, &USkillTreeComponent::SyncLocalDataAndStoredData);
+		SkillTreeComponent->DoStart(MyWidget);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("SkillTreeWidgetClass of SkillTreeActor not defined."));
+	}
+}
+////////// Base //////////
+
+
 /////////// Exp ///////////
 /** Get Player's Current Grade **/
 int ASkillTreeActor::GetCurrentGrade_Implementation()
@@ -58,7 +90,7 @@ bool ASkillTreeActor::SetExp_Implementation(int Exp)
 /** Set Player's Grade **/
 bool ASkillTreeActor::SetGrade_Implementation(int Grade)
 {
-	SkillTreeComponent->SetCurrentPlayerExp(Grade * BaseExpIncrement);
+	SkillTreeComponent->SetCurrentPlayerExp(Grade / 2 * (1 + Grade) * BaseExpIncrement);
 	return true;
 }
 /////////// Exp ///////////

@@ -30,7 +30,7 @@ public:
 
 	/** Active Component **/
 	UFUNCTION(BlueprintCallable, Category = STFunctions)
-	void DoStart();
+	void DoStart(UUserWidget* Widget);
 	
 	/** Similar to native OnTick but with custom rate **/
 	UPROPERTY(BlueprintAssignable, Category = STDelegates, meta=(DisplayName="OnTick", ScriptName="OnTick"))
@@ -43,6 +43,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = STFunctions)
 	void SyncLocalDataAndStoredData();
 
+	UPROPERTY(BlueprintReadWrite, Category = STVariables)
+	UBaseSkillTreeWidget* SkillTreeUI;
+	
 	///////////////////////////
 	// Getters and Setters
 	int GetAvailableSkillPoints() const
@@ -67,6 +70,14 @@ public:
 	// Getters and Setters
 	///////////////////////////
 
+	// Debug Tool / Notice Tool //
+	static void GlobalNoticing(const FString& Component, const FString& Msg, const FColor Color)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, Color,
+			TEXT("[SkillTreeSystem-" + Component + TEXT("-Alert]") + Msg)); 
+	}
+	// Debug Tool / Notice Tool //
+	
 protected:
 	
 	UFUNCTION(BlueprintCallable, Category=STFunctions)
@@ -77,27 +88,22 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, Category = STVariables)
 	float TimerTickRate = 0.2f;
-
-	UPROPERTY(BlueprintReadWrite, Category = STVariables)
-	UBaseSkillTreeWidget* SkillTreeUI;
 	
 	UPROPERTY(BlueprintReadWrite, Category = STVariables)
-	bool IsSkillTreeVisible;
+	bool IsSkillTreeVisible = false;
 
 	UPROPERTY(BlueprintReadOnly, Category = STVariables)
 	USkillTreeGameInstance* SkillTreeInstance;
 	
 	UPROPERTY(BlueprintReadOnly, Category = STVariables)
-	int AvailableSkillPoints;
+	int AvailableSkillPoints = 0;
 	
 	UPROPERTY(BlueprintReadOnly, Category = STVariables)
-	int CurrentPlayerExp;
+	int CurrentPlayerExp = 0;
 
 	UPROPERTY(BlueprintReadOnly, Category = STVariables)
 	TMap<FString, float> PropertiesMap;
 	
 	UPROPERTY(BlueprintReadOnly, Category = STVariables)
 	TMap<FString, bool> SkillTreeNodesMap;
-		
-	static void DebugMsg(const FString& Msg);
 };

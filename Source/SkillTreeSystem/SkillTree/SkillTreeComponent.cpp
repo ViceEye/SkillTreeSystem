@@ -8,30 +8,50 @@ USkillTreeComponent::USkillTreeComponent()
 	
 }
 
+
+// Debug Tool / Notice Tool //
+static void GlobalNoticing_Imp(const FString& Msg)
+{
+	USkillTreeComponent::GlobalNoticing(TEXT("USkillTreeComponent"), Msg, FColor::Magenta);	
+}
+// Debug Tool / Notice Tool //
+
+
 void USkillTreeComponent::OpenSkillTree()
 {
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	if (PlayerController != nullptr)
 	{
-		SkillTreeUI->OpenOrCloseST(!IsSkillTreeVisible);
-		if (IsSkillTreeVisible)
+		if (SkillTreeUI != nullptr)	
 		{
-			UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
-			PlayerController->SetShowMouseCursor(false);
+			SkillTreeUI->OpenOrCloseST(!IsSkillTreeVisible);
+			if (IsSkillTreeVisible)
+			{
+				UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
+				PlayerController->SetShowMouseCursor(false);
+			}
+			else
+			{
+				UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(PlayerController, SkillTreeUI, EMouseLockMode::LockOnCapture, false);
+				PlayerController->SetShowMouseCursor(true);
+			}
+			IsSkillTreeVisible = !IsSkillTreeVisible;
 		}
 		else
 		{
-			UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(PlayerController, SkillTreeUI, EMouseLockMode::LockOnCapture, false);
-			PlayerController->SetShowMouseCursor(true);
+			GlobalNoticing_Imp(TEXT("失败"));
 		}
-		IsSkillTreeVisible = !IsSkillTreeVisible;
+	}
+	else
+	{
 	}
 }
 
-void USkillTreeComponent::DoStart()
+void USkillTreeComponent::DoStart(UUserWidget* Widget)
 {
 	SkillTreeInstance = Cast<USkillTreeGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	DebugMsg(TEXT("Loaded up!"));
+	SkillTreeUI = Cast<UBaseSkillTreeWidget>(Widget);
+	GlobalNoticing(TEXT("USkillTreeComponent"), TEXT("Loaded up!"), FColor::Blue);
 	OnStart.Broadcast();
 	
 	GetWorld()->GetTimerManager().SetTimer(TimerHandler, this, &USkillTreeComponent::DoTick, TimerTickRate, true);
@@ -50,9 +70,3 @@ void USkillTreeComponent::SyncLocalDataAndStoredData()
 	this->PropertiesMap = Data->PropertiesMap;
 	this->SkillTreeNodesMap = Data->SkillTreeNodesMap;
 }
-
-void USkillTreeComponent::DebugMsg(const FString& Msg)
-{
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, Msg); 
-}
-

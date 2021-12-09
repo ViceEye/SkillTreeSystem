@@ -16,6 +16,16 @@ class SKILLTREESYSTEM_API ASkillTreeActor : public AActor
 public:	
 	ASkillTreeActor();
 
+	////////// Base //////////
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = STVariables)
+	TSubclassOf<UUserWidget> SkillTreeWidgetClass;
+	
+	/** Do loading processes, initialise Widget **/
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = STFunctions)
+	void DoLoad();
+	////////// Base //////////
+	
+
 	/////////// Exp ///////////
 	/** Get Player's Current Grade **/
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = STFunctions)

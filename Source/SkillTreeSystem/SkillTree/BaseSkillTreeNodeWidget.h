@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "SkillTreeSystem/SkillTreeSystemCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 #include "CoreMinimal.h"
@@ -12,11 +11,15 @@
 UENUM(BlueprintType)
 enum ERespond
 {
-	PREVIOUS_NODE_NOT_ACTIVE    UMETA(DisplayName = "PreviousNodeNotActive"),
-	SUCCESS_ACTIVATED			UMETA(DisplayName = "NodeSuccessActivated"),
-	FAIL						UMETA(DisplayName = "Failed"),
-	OKAY						UMETA(DisplayName = "Okay"),
-  };
+	PREVIOUS_NODE_NOT_ACTIVE			UMETA(DisplayName = "PreviousNodeNotActive"),
+	REQUIRE_SKILL_POINT_NOT_ENOUGH		UMETA(DisplayName = "RequireSkillPointNotEnough"),
+	REQUIRE_GRADE_LEVEL_NOT_ENOUGH		UMETA(DisplayName = "RequireGradeLevelNotEnough"),
+	SUCCESS_ACTIVATED					UMETA(DisplayName = "NodeSuccessActivated"),
+	DEBUG_FAIL							UMETA(DisplayName = "DebugFailed"),
+	DEBUG_OKAY							UMETA(DisplayName = "DebugOkay"),
+};
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNodeActivationSignature);
 
 /**
  * 
@@ -27,9 +30,18 @@ class SKILLTREESYSTEM_API UBaseSkillTreeNodeWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = UIDelegates)
+	FNodeActivationSignature NodeActivation;
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = UIFunctions)
+	void SetActive(bool Active);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NodeVariables)
 	UBaseSkillTreeNodeWidget* PreviousNode;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NodeVariables)
+	UTexture2D* Icon;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NodeVariables)
 	FString Name;

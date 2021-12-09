@@ -2,9 +2,13 @@
 
 #pragma once
 
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetArrayLibrary.h"
+
+#include "BaseSkillTreeNodeWidget.h"
+
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/CanvasPanel.h"
 #include "BaseSkillTreeWidget.generated.h"
 
 /**
@@ -17,10 +21,28 @@ class SKILLTREESYSTEM_API UBaseSkillTreeWidget : public UUserWidget
 
 public:
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UCanvasPanel* Test;
+	UPROPERTY(BlueprintReadOnly, Category = UI)
+	TArray<UWidget*> NodesList;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = UI)
+	void RequestRegisterNodes();
+	
+	UFUNCTION(BlueprintCallable, Category = UI)
+	void RegisterAllNodes(TArray<UWidget*> NodesArray);
+
+	/*Responsible for load all nodes from storage*/
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = UI)
+	void LoadAllNodeWidgets();
+
+	/*Responsible for save all nodes | Name => Active? |*/
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = UI)
+	void SaveAllNodeWidgets();
+
+	UFUNCTION()
+	void ListenToNodeActivation();
 	
 	/*Responsible for open and close Skill Tree*/
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = UI)
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = UI)
 	void OpenOrCloseST(bool open);
+	
 };
