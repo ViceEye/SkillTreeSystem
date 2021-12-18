@@ -73,8 +73,10 @@ public:
 	// Debug Tool / Notice Tool //
 	static void GlobalNoticing(const FString& Component, const FString& Msg, const FColor Color)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, Color,
-			TEXT("[SkillTreeSystem-" + Component + TEXT("-Alert]") + Msg)); 
+		constexpr bool Debug = false;
+		if (Debug)
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, Color,
+				TEXT("[SkillTreeSystem-" + Component + TEXT("-Alert]") + Msg)); 
 	}
 	// Debug Tool / Notice Tool //
 	
