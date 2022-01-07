@@ -20,7 +20,7 @@ enum ERespond
 	DEBUG_OKAY							UMETA(DisplayName = "DebugOkay"),
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNodeActivationSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FNodeActivationSignature, UUserWidget*, NodeWidget);
 
 /**
  * 

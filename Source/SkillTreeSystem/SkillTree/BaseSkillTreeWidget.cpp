@@ -29,7 +29,7 @@ void UBaseSkillTreeWidget::RegisterAllNodes(TArray<UWidget*> NodesArray)
 }
 
 
-void UBaseSkillTreeWidget::ListenToNodeActivation()
+void UBaseSkillTreeWidget::ListenToNodeActivation(UUserWidget* NodeWidget)
 {
 	GlobalNoticing_Imp(TEXT("Activation Recieved"));
 	SaveAllNodeWidgets();

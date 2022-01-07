@@ -37,7 +37,7 @@ public:
 	void SaveAllNodeWidgets();
 
 	UFUNCTION()
-	void ListenToNodeActivation();
+	void ListenToNodeActivation(UUserWidget* NodeWidget);
 	
 	/*Responsible for open and close Skill Tree*/
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = UI)
