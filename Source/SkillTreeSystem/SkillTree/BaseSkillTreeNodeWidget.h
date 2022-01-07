@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 
 #include "CoreMinimal.h"
+#include "SkillTreeActor.h"
 #include "Blueprint/UserWidget.h"
 #include "BaseSkillTreeNodeWidget.generated.h"
 
@@ -59,5 +60,5 @@ public:
 	bool IsActive;
 	
 	UFUNCTION(BlueprintCallable, Category = NodeFunctions)
-	TEnumAsByte<ERespond> TryActive();
+	TEnumAsByte<ERespond> TryActive(ASkillTreeActor* SkillTreeActor);
 };

@@ -39,6 +39,10 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = STFunctions)
 	int GetMaxExp();
 
+	/** Add Player's Exp **/
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = STFunctions)
+	bool AddExp(int Exp);
+
 	/** Reduce Player's Exp **/
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = STFunctions)
 	bool ReduceExp(int Exp);

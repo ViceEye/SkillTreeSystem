@@ -73,6 +73,13 @@ int ASkillTreeActor::GetMaxExp_Implementation()
 	return GetCurrentGrade() * BaseExpIncrement;
 }
 
+/** Add Player's Exp **/
+bool ASkillTreeActor::AddExp_Implementation(int Exp)
+{
+	SkillTreeComponent->SetCurrentPlayerExp(SkillTreeComponent->GetCurrentPlayerExp() + Exp);
+	return true;
+}
+
 /** Reduce Player's Exp **/
 bool ASkillTreeActor::ReduceExp_Implementation(int Exp)
 {

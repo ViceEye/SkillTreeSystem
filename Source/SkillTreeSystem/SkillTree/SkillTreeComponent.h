@@ -53,9 +53,9 @@ public:
 		return AvailableSkillPoints;
 	}
 
-	void SetAvailableSkillPoints(int Point)
+	void SetAvailableSkillPoints(int Point) const
 	{
-		this->AvailableSkillPoints = Point;
+		SkillTreeInstance->SaveGameData->AvailableSkillPoints = Point;
 	}
 
 	int GetCurrentPlayerExp() const
@@ -63,9 +63,9 @@ public:
 		return CurrentPlayerExp;
 	}
 
-	void SetCurrentPlayerExp(int Exp)
+	void SetCurrentPlayerExp(int Exp) const
 	{
-		this->CurrentPlayerExp = Exp;
+		SkillTreeInstance->SaveGameData->CurrentPlayerExp = Exp;
 	}
 	// Getters and Setters
 	///////////////////////////

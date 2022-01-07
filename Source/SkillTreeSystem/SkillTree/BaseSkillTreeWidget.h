@@ -5,8 +5,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetArrayLibrary.h"
 
-#include "BaseSkillTreeNodeWidget.h"
-
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "BaseSkillTreeWidget.generated.h"
